@@ -14,27 +14,10 @@ import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 
 /*
- * Encog(tm) Java Examples v3.2
- * http://www.heatonresearch.com/encog/
- * https://github.com/encog/encog-java-examples
- *
- * Copyright 2008-2013 Heaton Research, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *   
- * For more information on Heaton Research copyrights, licenses 
- * and trademarks visit:
- * http://www.heatonresearch.com/copyright
+ * Based on the ENCOG framework and templates from the same framework. 
+ * 
+ * This modification is distributed under GPLv3
+ * 
  *
  * Codigo adaptado por Jorge J. Gomez Sanz
  * Reusando código de Manuel Pascual López 
@@ -173,7 +156,8 @@ public class SimpleClassifier {
 	public static void main(String[] args) {
 		BasicNetwork network = createANN();
 		NeuralDataSet trainingSet = trainANN(network);
-		// it tests the network and shows you how well it performs
+		// this part is not really necessary and it is included only to show
+		// how the ANN performs with known examples
 		testNetworkwithTrainingExamples(network, trainingSet);
 		// It takes a random image (tested or not) to see how it works
 		classifyOneImage(network,"images/izquierdaa.png");		

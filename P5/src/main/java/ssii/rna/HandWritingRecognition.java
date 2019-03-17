@@ -15,7 +15,9 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 
 /**
  * 
- * Based on the ENCOG framework. Distributed under GPLv3
+ * Based on the ENCOG framework. 
+ * 
+ * This modification is distributed under GPLv3
  * 
  * This class performs basic pattern recognition to identify handwritten
  * numbers. It launches a GUI so that users can write down numbers. The recognition

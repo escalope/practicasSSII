@@ -48,7 +48,7 @@ public class BasicANNForLogicalFunctions
 
 
 
-	private static void probarRed(BasicNetwork network,
+	private static void testNetworkwithTrainingExamples(BasicNetwork network,
 			NeuralDataSet trainingSet) {
 		System.out.println("Neural Network Results:");
 		for(MLDataPair pair: trainingSet ) {
@@ -60,7 +60,7 @@ public class BasicANNForLogicalFunctions
 		}
 	}
 
-	private static NeuralDataSet entrenarRed(BasicNetwork network) {
+	private static NeuralDataSet trainANN(BasicNetwork network) {
 		NeuralDataSet trainingSet = new
 				BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		final Train train = new ResilientPropagation(network,
@@ -76,7 +76,7 @@ public class BasicANNForLogicalFunctions
 		return trainingSet;
 	}
 
-	private static BasicNetwork crearEstructuraRed() {
+	private static BasicNetwork createANN() {
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(null, true,2));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,4));
@@ -86,10 +86,30 @@ public class BasicANNForLogicalFunctions
 		return network;
 	}
 	
+	/** 
+	 * Given a trained network, it applies this network to recognise an a particular input
+	 * It returns the activation of the network
+	 * 
+	 * @param network a trained ANN
+	 * @param imagePath the file to recognise
+	 * @return the activation of the network
+	 */
+	private static MLData classifyOneInput(BasicNetwork network, double[] inputData) {
+		MLData input=new org.encog.neural.data.basic.BasicNeuralData(inputData);
+		MLData output = network.compute(input);		
+		System.out.println(inputData[0] + "," + 
+				inputData[1] + ", result=" + output.getData(0));		
+		return output;
+	}
+	
 	public static void main( String[] args )
 	{
-		BasicNetwork network = crearEstructuraRed();
-		NeuralDataSet trainingSet = entrenarRed(network);
-		probarRed(network, trainingSet);
+		BasicNetwork network = createANN();
+		NeuralDataSet trainingSet = trainANN(network);
+		// this part is not really necessary and it is included only to show
+		// how the ANN performs with known examples
+		testNetworkwithTrainingExamples(network, trainingSet);
+		// classifying a sample input
+		classifyOneInput(network, new double[] {0.0,1.0});
 	}
 }
