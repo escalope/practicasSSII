@@ -1,0 +1,107 @@
+/*
+ * Copyright 2010 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package ssii.drools.shopping
+ 
+dialect "mvel"
+
+import ssii.drools.shopping.ShoppingExample.Customer
+import ssii.drools.shopping.ShoppingExample.Product
+import ssii.drools.shopping.ShoppingExample.Purchase
+import ssii.drools.shopping.ShoppingExample.Discount
+import ssii.drools.shopping.ShoppingExample.BotDetected
+
+declare Purchase
+ @role( event )
+  @expires( 1h )
+end 
+
+rule "R0: suspicious activity detected"
+    salience 100
+    when
+        $c : Customer()               
+        $p : Number(doubleValue>2) from accumulate ($pp:Purchase(customer == $c) over window:time( 2s ),count($pp));     
+    then
+        System.err.println( "!!!!!!! Suspicious activity detected for customer "+$c.name+ ", purchased "+$p+" times in the time window");
+        insert(new BotDetected());        
+end
+
+
+rule "R1:Notify client"
+    salience 100
+
+    when
+        $c : Customer()               
+        $totalDiscount: Double(doubleValue >=10) from  
+         accumulate($d : Discount( customer == $c), sum($d.amount));
+    then
+        System.out.println( "Client " + $c.name + " has received more than "+$totalDiscount+" euros in discounts");
+        $c.setDiscount(  $totalDiscount);   
+end
+
+
+rule "R2:Purchase notification"
+    salience 100
+
+    when
+        $c : Customer()
+        $p : Purchase( customer == $c)
+    then
+        System.out.println( "Customer " + $c.name + " just purchased " + $p.product.name );
+end
+
+rule "R3:Update purchases"   
+    dialect "java"
+    when
+        $c : Customer()
+        $i : Double(doubleValue>=0) 
+           from accumulate ( Purchase( customer == $c, $price : product.price ),
+                                                                    sum( $price ) )                                                                    
+    then        
+        $c.setShoppingTotal(  $i);         
+end
+ 
+rule "R4:Discount removed notification"
+ no-loop true
+    when
+        $c : Customer()
+        not Discount( customer == $c )
+    then
+        $c.discount = 0;      
+        System.out.println( "Customer " + $c.name + " now has a discount of " + $c.discount );
+end
+
+rule "R5:Discount awarded notification"
+    when
+        $c : Customer()
+        $d : Discount( customer == $c )
+    then
+        System.out.println( "Customer " + $c.name + " now has a discount of " + $d.amount );
+end
+
+
+
+rule "R6:Apply 10% discount if total purchases is over 100"   
+    dialect "java"
+    when
+        $c : Customer()
+        $i : Double(doubleValue  > 100) 
+           from accumulate ( Purchase( customer == $c, $price : product.price ),
+                                                                    sum( $price ) )                                                                    
+    then  
+        insertLogical( new Discount($c, $i*0.1) );
+        System.out.println( "Discount created. Customer " + $c.getName() + " has a new discount of " + ($i*0.1) );
+end
