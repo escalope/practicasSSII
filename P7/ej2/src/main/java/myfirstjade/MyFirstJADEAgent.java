@@ -91,8 +91,9 @@ public class MyFirstJADEAgent extends Agent {
 		p.setParameter("preload","a*");
 		p.setParameter(Profile.LOCAL_PORT, "60000");		
 		p.setParameter(Profile.MAIN_PORT, "60000");		
-		p.setParameter(Profile.LOCAL_HOST, "147.96.80.91");		
-		p.setParameter(Profile.MAIN_HOST, "147.96.80.91");		
+
+//		p.setParameter(Profile.LOCAL_HOST, "CHANGEWITHLOCALIP");		
+//		p.setParameter(Profile.MAIN_HOST, "CHANGEWITHLOCALIP");		
 
 		// Create a new non-main container, connecting to the default
 		// main container (i.e. on this host, port 60000)
