@@ -1,0 +1,1 @@
+mvn compile exec:java -Djava.rmi.server.logCalls=true -Djava.security.policy=all.policy  -Dexec.mainClass="jade.Boot" -Dexec.args="-gui -port 60000 -dumpProfile true -mtp jade.mtp.http.MessageTransportProtocol(http://147.96.80.91:7778) -dumpProfile true" -DdumpProfile=true -Dsun.rmi.transport.tcp.logLevel=VERBOSE
