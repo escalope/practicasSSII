@@ -36,19 +36,19 @@ public class AgentB extends Agent {
 
 
 	/**
-	 * Este método lo usa el framework JADE para inicializar el agente.
+	 * Este mtodo lo usa el framework JADE para inicializar el agente.
 	 * El comportamiento esperado del agente consiste en:
 	 * - esperar un mensaje del agente A
 	 * - elaborar una respuesta y enviarla
-	 * Cuando termine esta secuencia, el agente no hará nada
+	 * Cuando termine esta secuencia, el agente no har nada
 	 */
 	@Override
 	protected void setup() {		
 		super.setup();
 
-		// metemos los comportamientos en un método por si se
+		// metemos los comportamientos en un mtodo por si se
 		// necesita repetir la secuencia en alguna otra circunstancia
-		// o se quiere invocar este método desde un GUI para arrancar
+		// o se quiere invocar este mtodo desde un GUI para arrancar
 		// el trabajo.
 		createBehaviors();
 
@@ -58,7 +58,7 @@ public class AgentB extends Agent {
 
 	private void createBehaviors() {
 		// esto es un container donde vamos metiendo los comportamientos. Los comportamientos
-		// que se agreguen serán ejecutados secuencialmente 
+		// que se agreguen sern ejecutados secuencialmente 
 		final SequentialBehaviour sb=new SequentialBehaviour();
 
 		// crea una plantilla que expresa como es el mensaje esperado como respuesta. Puede aludir al contenido o a cualesquiera
@@ -75,7 +75,7 @@ public class AgentB extends Agent {
 		// y procesarlo de forma acorde. El comportamiento no termina hasta quese recibe este mensaje.
 		final ReceiverBehaviour rb=new ReceiverBehaviour(this,-1,new MessageTemplate(me));
 
-		// ahora otro comportamiento que tomará la información del mensaje y hará algo simple, como
+		// ahora otro comportamiento que tomar la informacin del mensaje y har algo simple, como
 		// mostrarlo en pantalla
 		OneShotBehaviour processMessage=new OneShotBehaviour() {	
 			@Override
@@ -92,10 +92,10 @@ public class AgentB extends Agent {
 
 					// dice al agente que prepare el comportamiento para enviarlo
 					jade.core.behaviours.SenderBehaviour senderBehavior=new jade.core.behaviours.SenderBehaviour(this.myAgent,respuesta);
-					// y desde un comportamiento, modificamos el container original para agregar el envío. 
+					// y desde un comportamiento, modificamos el container original para agregar el envo. 
 					sb.addSubBehaviour(senderBehavior);
-					// para terminar, creamos otra vez todos los comportamientos para seguir respondiendo más
-					// mensajes. Si no lo hiciéramos, este terminaría.
+					// para terminar, creamos otra vez todos los comportamientos para seguir respondiendo ms
+					// mensajes. Si no lo hiciramos, este terminara.
 					createBehaviors();
 
 				} catch (TimedOut e) {
@@ -111,8 +111,8 @@ public class AgentB extends Agent {
 
 
 		// ahora agregamos todo en el orden en que queremos que se ejecute. SB
-		// es un sequential behavior, por lo que se meterá en cada comportamiento
-		// y, en el caso de la recepción del mensaje, no reanudará hasta que se
+		// es un sequential behavior, por lo que se meter en cada comportamiento
+		// y, en el caso de la recepcin del mensaje, no reanudar hasta que se
 		// reciba.
 
 		sb.addSubBehaviour(rb);

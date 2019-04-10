@@ -7,7 +7,7 @@ import jade.wrapper.StaleProxyException;
 
 public class Main {
 	/**
-	 *  Lanza la interfaz de gestión de los agentes. No importa si hay varias abiertas.
+	 *  Lanza la interfaz de gestin de los agentes. No importa si hay varias abiertas.
 	 * @param ac
 	 * @throws StaleProxyException
 	 */

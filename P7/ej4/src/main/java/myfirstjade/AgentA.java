@@ -36,12 +36,12 @@ public class AgentA extends Agent {
 
 
 	/**
-	 * Este método lo usa el framework JADE para inicializar el agente.
+	 * Este metodo lo usa el framework JADE para inicializar el agente.
 	 * El comportamiento esperado del agente consiste en:
 	 * - preparar un mensaje a enviar
 	 * - esperar la respuesta
 	 * - mostrar en la salida de comandos la respuesta
-	 * Cuando termine esta secuencia, el agente no hará nada
+	 * Cuando termine esta secuencia, el agente no hara nada
 	 */
 	@Override
 	protected void setup() {		
@@ -53,9 +53,9 @@ public class AgentA extends Agent {
 		arranque.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// metemos los comportamientos en un método por si se
+				// metemos los comportamientos en un mtodo por si se
 				// necesita repetir la secuencia en alguna otra circunstancia
-				// o se quiere invocar este método desde un GUI para arrancar
+				// o se quiere invocar este mtodo desde un GUI para arrancar
 				// el trabajo.
 				createBehaviors();
 				
@@ -71,7 +71,7 @@ public class AgentA extends Agent {
 
 	private void createBehaviors() {
 		// esto es un container donde vamos metiendo los comportamientos. Los comportamientos
-		// que se agreguen serán ejecutados secuencialmente 
+		// que se agreguen sern ejecutados secuencialmente 
 		SequentialBehaviour sb=new SequentialBehaviour();
 
 		// Prepara el mensaje
@@ -96,7 +96,7 @@ public class AgentA extends Agent {
 		// y procesarlo de forma acorde. El comportamiento no termina hasta quese recibe este mensaje.
 		final ReceiverBehaviour rb=new ReceiverBehaviour(this,-1,new MessageTemplate(me));
 
-		// ahora otro comportamiento que tomará la información del mensaje y hará algo simple, como
+		// ahora otro comportamiento que tomara la informacin del mensaje y har algo simple, como
 		// mostrarlo en pantalla
 		OneShotBehaviour processMessage=new OneShotBehaviour() {	
 			@Override
@@ -116,8 +116,8 @@ public class AgentA extends Agent {
 		};
 
 		// ahora agregamos todo en el orden en que queremos que se ejecute. SB
-		// es un sequential behavior, por lo que se meterá en cada comportamiento
-		// y, en el caso de la recepción del mensaje, no reanudará hasta que se
+		// es un sequential behavior, por lo que se meter en cada comportamiento
+		// y, en el caso de la recepcin del mensaje, no reanudar hasta que se
 		// reciba.
 
 		sb.addSubBehaviour(senderBehavior);
